@@ -39,6 +39,10 @@ server {
 		try_files $uri $uri/ =404;
 	}
 
+	location /hook {
+		proxy_pass http://localhost:9002;
+	}
+
 	listen [::]:443 ssl ipv6only=on; # managed by Certbot
 	listen 443 ssl; # managed by Certbot
 	ssl_certificate /etc/letsencrypt/live/dfhack.org/fullchain.pem; # managed by Certbot
