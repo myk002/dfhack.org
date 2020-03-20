@@ -1,7 +1,3 @@
-upstream file_browser {
-	server unix:/home/www/flask-file-browser/.sock fail_timeout=0;
-}
-
 server {
 	server_name files.dfhack.org;
 
@@ -9,7 +5,7 @@ server {
 	index index.html;
 
 	location / {
-		proxy_pass http://file_browser;
+		proxy_pass http://localhost:8001;
 		break;
 	}
 
