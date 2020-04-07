@@ -1,0 +1,191 @@
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font-family: sans-serif;
+}
+
+body {
+	margin: 0;
+	padding: 0.5em 1.5em;
+}
+
+header {
+	padding: 0.5em 1.25em;
+	display: grid;
+	grid-template-areas: "header header" ". .";
+	grid-template-columns: 40% 60%;
+	grid-gap: 0 2em;
+}
+
+.big-ol-button {
+	font-size: 2em;
+	text-decoration: none;
+	padding: 0.25em 0.75em;
+	display: inline-block;
+	text-align: center;
+}
+
+.mode-S {
+	display: none;
+}
+
+.op {
+	padding: 0.75em 1em 0.5em;
+	font-style: normal;
+}
+
+.op-stalled {
+	font-style: italic;
+}
+
+.background {
+	margin-top: 0.75em;
+}
+
+.async {
+	display: inline-block;
+	padding: 0.25em;
+	margin-left: -0.5em;
+	margin-right: 0.5em;
+	margin-top: -0.25em;
+}
+
+.stmt-msg {
+	float: right;
+	padding-left: 0.5em;
+	font-family: monospace;
+}
+
+.execution-group {
+	padding: 0 1em;
+	display: grid;
+	grid-gap: 0 2em;
+	grid-template-columns: 40% 60%;
+	grid-template-rows: auto fit-content(20em);
+	grid-template-areas: "header header" "op log";
+}
+
+h1 {
+	grid-area: header;
+}
+
+.executions {
+	grid-area: op;
+}
+
+.log {
+	grid-area: log;
+	overflow-y: scroll;
+	display: flex;
+	flex-direction: column-reverse;
+	font-family: monospace;
+	white-space: pre-wrap;
+}
+
+progress {
+	display: block;
+	width: 100%;
+	margin-top: 0.25em;
+}
+
+h2 {
+	margin-top: 0;
+}
+
+html {
+	background: #fff;
+	color: #000;
+}
+
+a {
+	color: #00f;
+}
+
+.big-ol-button {
+	color: #fff;
+	background-color: #333;
+}
+
+.hilite {
+	color: #04f;
+}
+
+.log-entry-d {
+	color: #666;
+}
+.log-entry-i {
+	color: #000;
+}
+.log-entry-w {
+	color: #d80;
+}
+.log-entry-e {
+	color: #f40;
+}
+
+.async {
+	background-color: #888;
+	color: #fff;
+}
+
+.op {
+	background-color: #eee;
+}
+
+.op-stalled {
+	background-color: #ccc;
+}
+
+@media (prefers-color-scheme: dark) {
+html {
+	background: #222;
+	color: #fff;
+}
+
+a {
+	color: #66f;
+}
+
+.big-ol-button {
+	color: #000;
+	background-color: #ddd;
+}
+
+.hilite {
+	color: #0af;
+}
+
+.log-entry-d {
+	color: #ccc;
+}
+.log-entry-i {
+	color: #fff;
+}
+.log-entry-w {
+	color: #fc6;
+}
+.log-entry-e {
+	color: #f66;
+}
+
+.async {
+	background-color: #777;
+	color: #fff;
+}
+
+.op {
+	background-color: #555;
+}
+
+.op-stalled {
+	background-color: #333;
+}
+}
+
+@media (max-width: 1100px) {
+	.execution-group, header {
+		display: block;
+	}
+}

@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <title>DFHack builds</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="builds.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h2>DFHack builds</h2>
-        <h3>Stable and pre-release builds</h3>
-        <p>Stable DFHack builds and pre-releases are available on <a href="https://github.com/dfhack/dfhack/releases">GitHub</a>.</p>
-        <h3>Unstable automated builds</h3>
-        <p>
-            <a href="https://buildmaster.lubar.me/api/ci-badges/link?page=build&key=badges&$ApplicationId=3&$BinariesAvailable=true">
-                <img src="https://buildmaster.lubar.me/api/ci-badges/image?page=build&key=badges&$ApplicationId=3&$BinariesAvailable=true">
-            </a>
-        </p>
-        <p>Click the above icon to download the most recent automated build. Depending on the status of DF support, this build may be unstable.</p>
-        <p>If the build is listed as "running", not all downloads may be available yet. To download an earlier, completed build, click <a href="https://buildmaster.lubar.me/applications/3/builds">here</a> for a full list of builds (click on a build number to see downloads).</p>
-    </div>
+    <header>
+        <h1>DFHack builds</h1>
+        <section>
+            <h2>Stable and pre-release builds</h2>
+            <p>Stable DFHack builds and pre-releases are available on <a href="https://github.com/dfhack/dfhack/releases">GitHub</a>.</p>
+            <p><a href="https://github.com/dfhack/dfhack/releases" class="big-ol-button">Download Latest DFHack&nbsp;Release</a></p>
+        </section>
+        <section>
+            <h2>Unstable automated builds</h2>
+            <p>
+                <a href="https://buildmaster.lubar.me/api/ci-badges/link?page=build&key=badges&$ApplicationId=3&$BinariesAvailable=true">
+                    <img src="https://buildmaster.lubar.me/api/ci-badges/image?page=build&key=badges&$ApplicationId=3&$BinariesAvailable=true">
+                </a>
+            </p>
+            <p>Click the above icon to download the most recent automated build. Depending on the status of DF support, this build may be unstable.</p>
+            <p>If the build is listed as "running", not all downloads may be available yet. To download an earlier, completed build, click <a href="https://buildmaster.lubar.me/applications/3/builds">here</a> for a full list of builds (click on a build number to see downloads).</p>
+        </section>
+    </header>
+    <noscript>JavaScript is required to render the live build viewer.</noscript>
+    <div id="status"></div>
+    <script src="builds.js"></script>
 </body>
 </html>
