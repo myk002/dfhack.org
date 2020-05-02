@@ -26,7 +26,12 @@
         </section>
     </header>
     <noscript>JavaScript is required to render the live build viewer.</noscript>
-    <div id="status"></div>
+    <div id="status">
+	    <div id="disconnected">
+		    <div id="reconnecting">Attempting to connect to the DFHack build server...</div>
+		    <button id="reconnect">Lost connection. Click here to reconnect.</button>
+	    </div>
+    </div>
     <script src="builds.js"></script>
 </body>
 </html>

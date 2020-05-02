@@ -1,5 +1,21 @@
-(function(sse) {
+(function() {
 	"use strict";
+
+	// from MDN's article on Page Visibility API
+	var hiddenProperty, visibilityChangeEvent;
+	if (typeof document.hidden !== "undefined") {
+		hiddenProperty = "hidden";
+		visibilityChangeEvent = "visibilitychange";
+	} else if (typeof document.msHidden !== "undefined") {
+		hiddenProperty = "msHidden";
+		visibilityChangeEvent = "msvisibilitychange";
+	} else if (typeof document.webkitHidden !== "undefined") {
+		hiddenProperty = "webkitHidden";
+		visibilityChangeEvent = "webkitvisibilitychange";
+	}
+
+	var reconnectWhenVisible = false;
+	var sse;
 
 	var executions = {};
 	var baseContainer = document.getElementById("status");
@@ -116,29 +132,111 @@
 		}
 	}
 
-	sse.onmessage = function(e) {
-		var data = e.data.split(/\n/g, 3);
-		var execution = executions[data[1]];
-		switch (data[0]) {
-		case "execution_create":
-			executions[data[1]] = new Execution(data[1], data[2]);
-			break;
-		case "execution_destroy":
-			if (execution) {
-				execution.destroy();
-			}
-			delete executions[data[1]];
-			break;
-		case "execution_log":
-			if (execution) {
-				execution.push_log(data[2].charAt(0), data[2].substr(1));
-			}
-			break;
-		case "execution_update":
-			if (execution) {
-				execution.update_status(JSON.parse(data[2]));
-			}
-			break;
+	function connect() {
+		showDisconnectedUI(true);
+		reconnectWhenVisible = false;
+
+		if (sse) {
+			sse.close();
 		}
-	};
-})(new EventSource("https://buildmaster.lubar.me/lubar/events"));
+
+		sse = new EventSource("https://buildmaster.lubar.me/lubar/events");
+		sse.onopen = function() {
+			// reset UI when we (re)connect
+			hideDisconnectedUI();
+			Object.keys(executions).forEach(function(id) {
+				executions[id].destroy();
+				delete executions[id];
+			});
+		};
+		sse.onmessage = function(e) {
+			var data = e.data.split(/\n/g, 3);
+			var execution = executions[data[1]];
+			switch (data[0]) {
+				case "execution_create":
+					executions[data[1]] = new Execution(data[1], data[2]);
+					break;
+				case "execution_destroy":
+					if (execution) {
+						execution.destroy();
+					}
+					delete executions[data[1]];
+					break;
+				case "execution_log":
+					if (execution) {
+						execution.push_log(data[2].charAt(0), data[2].substr(1));
+					}
+					break;
+				case "execution_update":
+					if (execution) {
+						execution.update_status(JSON.parse(data[2]));
+					}
+					break;
+			}
+		};
+
+		sse.onerror = function() {
+			if (sse.readyState === EventSource.CONNECTING) {
+				showDisconnectedUI(true);
+			} else if (sse.readyState === EventSource.CLOSED) {
+				handleConnectionError();
+			}
+		};
+	}
+
+	var disconnectedUI = document.getElementById("disconnected");
+	var reconnectingUI = document.getElementById("reconnecting");
+	var reconnectButton = document.getElementById("reconnect");
+	function showDisconnectedUI(reconnecting) {
+		disconnectedUI.style.display = "block";
+		if (reconnecting) {
+			reconnectingUI.style.display = "inline-block";
+			reconnectButton.style.display = "none";
+		} else {
+			reconnectingUI.style.display = "none";
+			reconnectButton.style.display = "inline-block";
+		}
+	}
+
+	function hideDisconnectedUI() {
+		disconnectedUI.style.display = "none";
+	}
+
+	reconnectButton.addEventListener("click", function() {
+		connect();
+	});
+
+	var lastReconnect = Date.now();
+	function handleConnectionError() {
+		// if the API isn't supported, assume not visible
+		var isVisible = hiddenProperty && !document[hiddenProperty];
+
+		// only hard-reconnect automatically once per minute
+		var shouldReconnect = Date.now() - lastReconnect > 60000;
+
+		showDisconnectedUI(isVisible && shouldReconnect);
+		if (shouldReconnect) {
+			lastReconnect = Date.now();
+
+			if (isVisible) {
+				showDisconnectedUI(true);
+				connect();
+				return;
+			}
+
+			reconnectWhenVisible = true;
+		}
+
+		showDisconnectedUI(false);
+	}
+
+	if (hiddenProperty && visibilityChangeEvent) {
+		document.addEventListener(visibilityChangeEvent, function() {
+			if (!document[hiddenProperty] && reconnectWhenVisible) {
+				connect();
+			}
+		});
+	}
+
+	connect();
+})();
