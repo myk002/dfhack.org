@@ -138,6 +138,30 @@ a {
 	background-color: #ccc;
 }
 
+#status {
+	position: relative;
+	min-height: 30rem;
+}
+
+#disconnected {
+	display: none;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 10;
+	text-align: center;
+	background-color: rgba(127, 127, 127, 0.4);
+}
+
+#reconnecting, #reconnect {
+	position: sticky;
+	top: 50%;
+	font-size: 3rem;
+	padding: 1rem;
+}
+
 @media (prefers-color-scheme: dark) {
 html {
 	background: #222;
