@@ -34,7 +34,7 @@ server {
 	location / {
 		rewrite ^/bay12 http://www.bay12forums.com/smf/index.php?topic=164123.0 redirect;
 		rewrite ^/docs https://dfhack.readthedocs.io redirect;
-		rewrite ^/discord https://discord.gg/NFQu3RT8S7 redirect;
+		rewrite ^/discord https://discord.gg/qMfsvejk2e redirect;
 		rewrite ^/support https://docs.dfhack.org/en/latest/docs/Support.html;
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
